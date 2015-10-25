@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
 
-  before_action :authenticate_user!, except: [:index]
+  # before_action :authenticate_user!, except: [:index, :destroy]
   before_action :set_default, only: [:new, :create, :edit, :update, :destroy, :index]
 
   def new
@@ -30,13 +30,14 @@ class PostsController < ApplicationController
 
   def destroy
     @post = Post.find(params[:id])
-    if current_user == @post.user
+    # if current_user == @post.user
+      # Cannot limit user to destroy own comment
       @post.destroy
-      redirect_to user_path(@user)
-    else
-      flash[:alert] = "This is not your post! This post belongs to #{@post.user.email}"
-      redirect_to :back
-    end
+      render :index
+    # else
+    #   flash[:alert] = "This is not your post! This post belongs to #{@post.user.email}"
+    #   redirect_to :back
+    # end
   end
 
 private
