@@ -1,7 +1,15 @@
 Home
 
 <% @posts.each do |post| %>
-<li><%= post.description %></li>
+<li><%= link_to post.description, post_path(post) %> by <%= post.user.email %></li>
 <% end %>
 
+<% if current_user  %>
 <%= link_to 'Create Post', new_user_post_path(current_user) %>
+<% end %>
+
+<% if current_user %>
+  <% @user.comments.each do |comment| %>
+    <li><%= comment.body %></li>
+  <% end %>
+<% end %>
